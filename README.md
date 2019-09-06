@@ -24,6 +24,8 @@ This SDK is extremely rudimentary, based solely from reverse-engineering efforts
 ## Locally (on Windows)
 
 Compile and move an app to floppy, using Windows Subsystem for Linux (WSL) and PowerShell:
+
+
 `z80asm -i ./samples/hello-world/hello.asm -o ./samples/hello-world/HELLO.APL; powershell.exe 'copy-item -path .\samples\hello-world\HELLO.APL 
 -destination A:\HELLO.APL'`
 
@@ -65,47 +67,49 @@ It looks like all system calls are made with `rst`.
 * a = 06 or 01
 
 ## Frequency of `rst` in Apps
-Can use the following to generate counts: `cat turn\ about/TURN-ABT.asm | grep rst | awk '{print $3 "
+Can use the following to generate counts:
+
+`cat turn\ about/TURN-ABT.asm | grep rst | awk '{print $3 "
 " $4}'|sort|uniq -c | sort -r | awk '{print $2 "\t" $3 "\t" "\tx"$1}'`
 
 ### TUTOR
-rst     28h x7
-rst     30h x3
-rst     10h x1
+    rst     28h x7
+    rst     30h x3
+    rst     10h x1
 
 ### ADDRESS
-rst     28h x13
-rst     30h x7
-rst     10h x5
-rst     38h x3
-rst     08h x1
+    rst     28h x13
+    rst     30h x7
+    rst     10h x5
+    rst     38h x3
+    rst     08h x1
 
 ### SPREAD
-rst     28h x26
-rst     10h x17
-rst     30h x16
-rst     20h x10
-rst     08h x2
+    rst     28h x26
+    rst     10h x17
+    rst     30h x16
+    rst     20h x10
+    rst     08h x2
 
 ### TETRIS
-rst     38h     x192 // Probably interrupt (at least it is on other popular firmwares)
-rst     28h     x10
-rst     10h     x10
-rst     20h     x8
-rst     18h     x5
-rst     30h     x4
-rst     08h     x3
-rst     00h     x1
+    rst     38h     x192 // Probably interrupt (at least it is on other popular firmwares)
+    rst     28h     x10
+    rst     10h     x10
+    rst     20h     x8
+    rst     18h     x5
+    rst     30h     x4
+    rst     08h     x3
+    rst     00h     x1
 
 ### TURN-ABT
-rst     38h     x190 // Probably interrupt (at least it is on other popular firmwares)
-rst     10h     x26
-rst     30h     x11
-rst     08h     x11
-rst     28h     x7
-rst     20h     x5
-rst     00h     x4
-rst     18h     x3
+    rst     38h     x190 // Probably interrupt (at least it is on other popular firmwares)
+    rst     10h     x26
+    rst     30h     x11
+    rst     08h     x11
+    rst     28h     x7
+    rst     20h     x5
+    rst     00h     x4
+    rst     18h     x3
 
 
 ## Suspicious
