@@ -1,20 +1,20 @@
-include './library/screen/BottomMenu.asm'
-include './library/screen/Screen.asm'
-include './library/utils/Flow.asm'
-include './library/utils/Wait.asm'
-
 org 5000h
 
 ; write the header
 db $81, $c1, $01, $01, $00, $00, $42, $52
 
+; Main entry point
 call ClearScreen
 call ShowMessage
 call Delay
-;call BlankMessageBar
-
 call ResetAndExit
 ret
+
+; Includes must come after the main entry point of the app.
+include './library/screen/BottomMenu.asm'
+include './library/screen/Screen.asm'
+include './library/utils/Flow.asm'
+include './library/utils/Wait.asm'
 
 ShowMessage:
     push    bc

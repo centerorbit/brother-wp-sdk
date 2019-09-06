@@ -3,14 +3,14 @@
 
 Unofficial SDK for the Brother Word Processors (circa 1994)
 
-This SDK is extremely rudimentary, based solely from reverse-engineering efforts, trial and error. While the end-goal of this project is to produce a library that can be used to build meaningful applications for the Brother Word Processors, it's a very tall order, with limited resources and likely less public interest. 
+This SDK is extremely rudimentary, based solely from reverse-engineering efforts, trial and error. While the end-goal of this project is to produce a library that can be used to build meaningful applications for the Brother Word Processors, it's a very tall order, with limited resources and likely even less public interest. 
 
 # Building
 
 Applications for the Brother start with an `.APL` file, for example, the hello-world sample will produce a `HELLO.APL` file. This can be copied to the root of a floppy disk, and run from the "Disk Application" menu on your Brother Word Processor.
 
 
-*What works?*
+**What works?**
 
 
 Currently, the `hello-world` application is all that works from this SDK. It's capable of:
@@ -52,8 +52,7 @@ You will need to have Windows Subsystem for Linux (WSL) installed, along with ei
 Compile and move an app to floppy, using WSL and PowerShell:
 
 
-`z80asm -i ./samples/hello-world/hello.asm -o ./samples/hello-world/HELLO.APL; powershell.exe 'copy-item -path .\samples\hello-world\HELLO.APL 
--destination A:\HELLO.APL'`
+`z80asm -i ./samples/hello-world/hello.asm -o ./samples/hello-world/HELLO.APL; powershell.exe 'copy-item -path .\samples\hello-world\HELLO.APL -destination A:\HELLO.APL'`
 
 # Helping / Contributing
 There are many many ways to help out with these efforts.
