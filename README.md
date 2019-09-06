@@ -7,6 +7,21 @@ This SDK is extremely rudimentary, based solely from reverse-engineering efforts
 
 # Building
 
+Applications for the Brother start with an `.APL` file, for example, the hello-world sample will produce a `HELLO.APL` file. This can be copied to the root of a floppy disk, and run from the "Disk Application" menu on your Brother Word Processor.
+
+
+*What works?*
+
+
+Currently, the `hello-world` application is all that works from this SDK. It's capable of:
+* Creating a valid APL (Brother application) file.
+* Load from disk.
+* Clear the screen.
+* Display the text "Hello World!" in the message bar at the bottom.
+* Successfully exit, and return to the Brother main menu.
+
+There are a few other helpful methods in the `library`, but nothing much substantial beyond what's already described.
+
 ## Using Docker
 
 ### Windows
@@ -21,9 +36,20 @@ This SDK is extremely rudimentary, based solely from reverse-engineering efforts
 1. `docker run -v $(pwd)/builds:/code/builds brother-wp-sdk:latest`
 1. Builds will now show up in the sdk's 'builds' folder!
 
-## Locally (on Windows)
+## Locally
 
-Compile and move an app to floppy, using Windows Subsystem for Linux (WSL) and PowerShell:
+### Linux
+Has been tested with Ubuntu and Debian, probably works with many other distros.
+
+1. Install `z80asm` assembler: `sudo apt-get update && sudo apt-get install -y z80asm`
+1. `cd` to the cloned sdk directory
+1. Build the "Hello World" sample: `z80asm -i ./samples/hello-world/hello.asm -o ./builds/HELLO.APL`
+1. A `HELLO.APL` app should now exist in the `./builds/ directory.
+
+### Windows
+You will need to have Windows Subsystem for Linux (WSL) installed, along with either the Debian or the Ubuntu distro.
+
+Compile and move an app to floppy, using WSL and PowerShell:
 
 
 `z80asm -i ./samples/hello-world/hello.asm -o ./samples/hello-world/HELLO.APL; powershell.exe 'copy-item -path .\samples\hello-world\HELLO.APL 
