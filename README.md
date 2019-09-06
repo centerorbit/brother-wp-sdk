@@ -1,4 +1,6 @@
 # Brother WP SDK
+[![Build Status](https://cloud.drone.io/api/badges/centerorbit/brother-wp-sdk/status.svg)](https://cloud.drone.io/centerorbit/brother-wp-sdk)
+
 Unofficial SDK for the Brother Word Processors (circa 1994)
 
 This SDK is extremely rudimentary, based solely from reverse-engineering efforts, trial and error. While the end-goal of this project is to produce a library that can be used to build meaningful applications for the Brother Word Processors, it's a very tall order, with limited resources and likely less public interest. 
