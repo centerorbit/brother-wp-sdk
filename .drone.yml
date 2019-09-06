@@ -1,0 +1,9 @@
+kind: pipeline
+name: default
+
+steps:
+- name: build
+  image: debian:latest
+  commands:
+    - apt-get update && apt-get install -y z80asm
+    - z80asm -i ./samples/hello-world/hello.asm -o ./builds/HELLO.APL

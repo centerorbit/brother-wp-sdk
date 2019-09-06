@@ -6,12 +6,23 @@ This SDK is extremely rudimentary, based solely from reverse-engineering efforts
 # Building
 
 ## Using Docker
-yet to come ...
+
+### Windows
+1. Open PowerShell and `cd` to the cloned sdk directory.
+1. `docker build -t brother-wp-sdk:latest .`
+1. `docker run -v "$((Get-Item -Path ".\").FullName+'\builds'):/code/builds" brother-wp-sdk:latest`
+1. Builds will now show up in the sdk's 'builds' folder!
+
+### Linux
+1. Open bash and `cd` to the cloned sdk directory
+1. `docker build -t brother-wp-sdk:latest .`
+1. `docker run -v $(pwd)/builds:/code/builds brother-wp-sdk:latest`
+1. Builds will now show up in the sdk's 'builds' folder!
 
 ## Locally (on Windows)
 
 Compile and move an app to floppy, using Windows Subsystem for Linux (WSL) and PowerShell:
-`z80asm -i ./hello-world/hello.asm -o ./hello-world/HELLO.APL; powershell.exe 'copy-item -path .\hello-world\HELLO.APL 
+`z80asm -i ./samples/hello-world/hello.asm -o ./samples/hello-world/HELLO.APL; powershell.exe 'copy-item -path .\samples\hello-world\HELLO.APL 
 -destination A:\HELLO.APL'`
 
 # Helping / Contributing
