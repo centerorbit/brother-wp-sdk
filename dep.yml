@@ -1,0 +1,9 @@
+deps:
+    - name: PN-8500MDSe
+      kind: z80asm
+    - name: WP-2450 DS
+      kind: z80asm
+    - name: WP-2410 DS
+      kind: z80asm
+    - name: WP-5500 DS
+      kind: z80asm

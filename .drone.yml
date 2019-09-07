@@ -5,5 +5,7 @@ steps:
 - name: build
   image: debian:latest
   commands:
-    - apt-get update && apt-get install -y z80asm
-    - z80asm -i ./samples/hello-world/hello.asm -o ./builds/HELLO.APL
+    - apt-get update && apt-get install -y z80asm unzip curl wget
+    - 'curl -s https://api.github.com/repos/centerorbit/depcharge/releases/latest | grep "browser_download_url.*zip" | grep linux | cut -d : -f 2,3 | tr -d \" | wget -qi -'
+    - unzip *linux-x64.zip
+    - ./depcharge -f -- z80asm --includepath='targets/{{name}}' -i ./samples/hello-world/hello.asm -o './builds/{{name}}/HELLO.APL'
