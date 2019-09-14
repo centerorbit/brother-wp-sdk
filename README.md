@@ -52,7 +52,7 @@ You will need to have Windows Subsystem for Linux (WSL) installed, along with ei
 Compile and move an app to floppy, using WSL and PowerShell:
 
 
-`z80asm -i ./samples/hello-world/hello.asm -o ./samples/hello-world/HELLO.APL; powershell.exe 'copy-item -path .\samples\hello-world\HELLO.APL -destination A:\HELLO.APL'`
+`z80asm --includepath="targets/WP-2450 DS" -i ./samples/hello-world/hello.asm -o "./builds/WP-2410 DS/HELLO.APL"; powershell.exe 'copy-item -path ".\builds\WP-2410 DS\HELLO.APL" -destination "A:\HELLO.APL"'`
 
 # Helping / Contributing
 There are many many ways to help out with these efforts.

@@ -1,4 +1,4 @@
-; This file contains methods for t
+; This file contains methods for time/pauses
 
 
 ; TODO: This method could use some model directives to adjust the loop
