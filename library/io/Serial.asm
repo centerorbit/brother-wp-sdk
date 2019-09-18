@@ -1,20 +1,4 @@
 
-;SOME CONSTANTS FROM NASCOM BASIC.
-;==============================================================
-
-CTRLC:    EQU    03H             ; Control "C"
-CTRLG:    EQU    07H             ; Control "G"
-BKSP:    EQU    08H             ; Back space
-LF:      EQU    0AH             ; Line feed
-CS:      EQU    0CH             ; Clear screen
-CR:      EQU    0DH             ; Carriage return
-CTRLO:    EQU    0FH             ; Control "O"
-CTRLQ:    EQU	11H             ; Control "Q"
-CTRLR:    EQU    12H             ; Control "R"
-CTRLS:    EQU    13H             ; Control "S"
-CTRLU:    EQU    15H             ; Control "U"
-ESC:     EQU    1BH             ; Escape
-DEL:     EQU    7FH             ; Delete
 
 ;CONSTANTS from http://www.hd64180-cpm.de/resources/180MACRO.LIB
 ;ASCI REGISTERS
@@ -29,17 +13,14 @@ TDR1:	EQU	07H
 RDR0:	EQU	08H
 RDR1:	EQU	09H
 
-.macro in0a
-    db 0EDh, 038h, %%1
-.endm
+; in0a: macro arg1
+;     db 0EDh, 038h, arg1
+; endm
 
-.macro out0a
-    db 0EDh, 039h, %%1
-.endm
+out0a: macro arg1
+    db 0EDh, 039h, arg1
+endm
 
-
-
-ConfigureSerial:
 ; Note, the prescaler is 111 (external clock) on reset.  
 ;This changes it to the fastest internal baud rate. 
 ; Clock rate is 12.27Mhz (Clock speed) / divisor for 001 = 12270000/320.
@@ -47,35 +28,81 @@ ConfigureSerial:
 ; My crystal is 12.27
 ; Trying a different divisor to get slower signal.
 ;
-    ld a,0
-    ld b,a
-    ld c,a
-    ld a,01100100b
-    out0a CNTLA0    ;   out (CNTLA0),a
-;    ld a,00000001b  ; 19200bps ; Didn't work for input.
-    ld a,00000010b  ; 9600bps
-;    ld a,00001110b  ; 150bps
-    out0a CNTLB0    ;   out (CNTLB0),a
+ConfigureSerialChannel0:
     
-    ld a,01100100b
-    out0a CNTLA1    ;    out (CNTLA1),a
+    ; See page 125 of z8018x User Manual
+    ; Bit 7: Multi-Processor Communication mode
+    ; Bit 6: Receiver Enabled
+    ; Bit 5: Transmit Enabled
+    ; Bit 4: Request to Send
+    ; Bit 3: Error Flag Reset
+    ; Bit 2-0: Data format
+    ; 110 = 8-bit + parity + 1 stop
+    ; Non-multi, Receive On, Transmit On, No Req to Send, Reset Error Flag, 8-bit+parity+1stop
+    ld a,01100110b
+;     ;db 0EDh, 039h, CNTLA0    ;   
+;     out (CNTLA0),a
+    out0a CNTLA0    ;   out (CNTLA0),a
+
+;     ; Last 3 bits are Speed Select
+; ;    ld a,00000000b  ; 38400bps
+; ;    ld a,00000001b  ; 19200bps
+; ;    ld a,00000010b  ; 9600bps
+; ;    ld a,00000011b  ; 4800bps
+; ;    ld a,00000100b  ; 2400bps
+; ;    ld a,00000101b  ; 1200bps
+; ;    ld a,00000110b  ; 600bps
+
     ld a,00000010b  ; 9600bps
-;    ld a,00001010b  ; 2400bps
-    out0a CNTLB1    ;    out (CNTLB1),a
+;     ;db 0EDh, 039h, CNTLB0    ;   
+;     out (CNTLB0),a
+    out0a CNTLB0
 ret
+
+; ConfigureSerialChannel1:
+;     ld a,01100100b
+;     out0a, CNTLA1    ;    out (CNTLA1),a
+
+;     ld a,00000010b  ; 9600bps
+;     out0a, CNTLB1    ;    out (CNTLB1),a
+; ret
 
 ; THIS IS THE BYTE OUTPUT FUNCTION FOR
 ; THE NASCOM BASIC (and presumably monitor, wherever that is!)
 MONOUT: 
         CALL OutSer0           ; output a char
-        CALL OutSer1           ; output a char
-        call ShortDelay
-        ret
+        ; CALL OutSer1           ; output a char
+        ; out (TDR0),a
+        ;db 0EDh, 039h, TDR0        ; output a char
+        ; call  OutSer1           ; output a char
+ret
 
    ; My assembler won't take the new mnemonics.
 OutSer0:
-    out0a (TDR0)
-    ret
+    out0a TDR0
+    call ShortDelay
+ret
+
 OutSer1:
-    out0a (TDR1)
-    ret
+    out0a TDR1
+ret
+
+ShortDelay_Length: DEFW 90
+ShortDelay:
+    ;fine-tuning a delay for 9600 baud serial
+    push af
+    push bc
+    ld a,255
+    ld bc, (ShortDelay_Length) ; 20 was too short
+    Outer2:
+        nop
+        nop
+        nop
+        dec bc                  ;Decrements BC
+        ld a, b                 ;Copies B into A
+        or c                    ;Bitwise OR of C with A (now, A = B | C)
+    jp nz, Outer2            ;Jumps back to Outer: label if A is not zero
+    pop bc
+    pop af  
+    ret                     ;Return from call to this subroutine
+    

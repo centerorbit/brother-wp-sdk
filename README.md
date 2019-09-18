@@ -54,6 +54,11 @@ Compile and move an app to floppy, using WSL and PowerShell:
 
 `z80asm --includepath="targets/WP-2450 DS" -i ./samples/hello-world/hello.asm -o "./builds/WP-2410 DS/HELLO.APL"; powershell.exe 'copy-item -path ".\builds\WP-2410 DS\HELLO.APL" -destination "A:\HELLO.APL"'`
 
+## Using DepCharge
+
+`depcharge -f -s -k build -x z80asm  -- --includepath='t
+argets/{{../name}}' -i ./{{location}}/{{input}} -o "./builds/{{../name}}/{{output}}"`
+
 # Helping / Contributing
 There are many many ways to help out with these efforts.
 1. If you have software disks that are not yet documented, please consider providing a PR to the [brother-wp-software](https://github.com/centerorbit/brother-wp-software) repo. The more software we have, the more we can decompile to understand how these machines work.

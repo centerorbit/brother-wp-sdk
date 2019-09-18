@@ -9,7 +9,9 @@
 ; Thanks to: http://www.paleotechnologist.net/?p=2589
 ; This will cause a ~10 sec or so delay (depending on clock speed)
 Delay:
-    ld bc, 100h            ;Loads BC with hex 100
+    push bc
+    push de
+    ; ld bc, 100h            ;Loads BC with hex 100
     Outer:
         ld de, 1000h            ;Loads DE with hex 1000
             Inner:
@@ -21,6 +23,8 @@ Delay:
         ld a, b                 ;Copies B into A
         or c                    ;Bitwise OR of C with A (now, A = B | C)
     jp nz, Outer            ;Jumps back to Outer: label if A is not zero
+    pop de
+    pop bc
 ret                     ;Return from call to this subroutine
 
 ; Will lock up the typewriter

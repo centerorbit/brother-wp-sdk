@@ -1,9 +1,42 @@
+.builds: &sample-builds
+  - kind: build
+    params:
+      location: samples/app-origin
+      input: origin.asm
+      output: ORIGIN.APL
+  - kind: build
+    params:
+      location: samples/hello-serial
+      input: serial.asm
+      output: SERIAL.APL
+  - kind: build
+    params:
+      location: samples/hello-world
+      input: hello.asm
+      output: HELLO.APL
+  - kind: build
+    params:
+      location: samples/input
+      input: keyboard.asm
+      output: KEYBOARD.APL
+
 deps:
-    - name: PN-8500MDSe
-      kind: z80asm
-    - name: WP-2450 DS
-      kind: z80asm
-    - name: WP-2410 DS
-      kind: z80asm
-    - name: WP-5500 DS
-      kind: z80asm
+    - kind: machines
+      deps:
+        - name: PN-8500MDSe
+          kind: z80asm
+          merge-deps:
+            - *sample-builds
+        - name: WP-2450 DS
+          kind: z80asm
+          merge-deps:
+            - *sample-builds
+        - name: WP-2410 DS
+          kind: z80asm
+          merge-deps:
+            - *sample-builds
+        - name: WP-5500 DS
+          kind: z80asm
+          merge-deps:
+            - *sample-builds
+

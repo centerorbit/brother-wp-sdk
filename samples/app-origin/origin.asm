@@ -3,38 +3,16 @@ include 'header.asm'
 ; Main entry point
 call ClearScreen
 call ShowMessage
-call ConfigureSerialChannel0
-call SerialOk
+ld bc, 100h
+call Delay
+call ResetAndExit
 ret
-
-
-SerialOk:
-    ld a,13
-    call MONOUT
-    ld a,10
-    call MONOUT
-    ld a,"O"
-    call MONOUT
-    ld a,"K"
-    call MONOUT
-    ld a,13
-    call MONOUT
-    ld a,10
-    call MONOUT
-
-LoopOk:
-    ld bc,10h
-    call Delay
-    jp SerialOk
-; looping to just print this out here.
 
 ; Includes must come after the main entry point of the app.
 include './library/screen/BottomMenu.asm'
 include './library/screen/Screen.asm'
 include './library/utils/Flow.asm'
 include './library/utils/Wait.asm'
-include './library/io/Serial.asm'
-
 
 ShowMessage:
     push    bc
@@ -67,6 +45,12 @@ WriteString:
     inc     de
     jr      WriteString
 EndOfString:
+    dec     hl
+    dec     hl
+    call    PrintHex
+    ld      (hl),a
+    inc     hl
+    inc     hl
     pop     bc
     ld      a,(bc)
     cp      00h
@@ -93,13 +77,37 @@ FlushAndExit:
     pop     bc
 ret     
 
+
+PrintHex:
+	pop de
+	push de
+	ld a, d
+	srl a
+	srl a
+	srl a
+	srl a
+	cp 10
+	jr nc, PrintLetter
+	jp PrintNumber
+ret
+
+PrintNumber:
+	add 48
+ret
+
+PrintLetter:
+	add 65
+ret
+
 Message:
     db $0e, $00, $90, $00 ; Message bar, yes. Offset of some sort
-    db "Printing"
+    db "Your"
     db $00 ; spaces are nulls for message bar
-    db "'OK'"
-    db $00 ; spaces are nulls for message bar
-    db "to"
-        db $00 ; spaces are nulls for message bar
-    db "terminal..."
+    db "program"
+    db $00
+    db "resides"
+    db $00
+    db "in:"
+    db $00
+    db "x0000"
     db $ff ; String terminator

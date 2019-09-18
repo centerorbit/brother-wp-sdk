@@ -1,25 +1,14 @@
-include 'header.asm'
 
-; Main entry point
-call ClearScreen
-call ShowMessage
-call Delay
-call ResetAndExit
-ret
-
-; Includes must come after the main entry point of the app.
-include './library/screen/BottomMenu.asm'
-include './library/screen/Screen.asm'
-include './library/utils/Flow.asm'
-include './library/utils/Wait.asm'
-
+; To pass in the beginning pointer of a message,
+;  use the following:
+; ld bc,Message
+; String terminates with `db $ff`,
+;  and spaces are `db $00` 
 ShowMessage:
-    push    bc
     push    de
     push    hl
     call    ClearMessageBar
     call    GetBottomMenuPtr
-    ld      bc,Message
 ; Formatting and offset loading?
     ld      a,(bc) ; Loading &0e into a
     ld      d,a ; d = &0e
@@ -31,7 +20,6 @@ ShowMessage:
     push    bc ; addr of string start onto stack
 ; To here
     ld      de,0000h ; de reset to 0
-
 WriteString:
     inc     hl ; Our bottom message pointer
     inc     bc ; moves to: &00
@@ -44,69 +32,26 @@ WriteString:
     inc     de
     jr      WriteString
 EndOfString:
-    dec     hl
-    dec     hl
-    call    PrintHex
-    ld      (hl),a
-    inc     hl
-    inc     hl
     pop     bc
     ld      a,(bc)
     cp      00h
-    jr      z,FlushAndExit
+    jr      z,FlushAndReturn
     call    GetBottomMenuPtr
     ld      a,(bc)
 ; This loop inverts the text to be a yellow bar with black writing
-; Start Invert
     ld      b,5bh ; 91
-Again:
+InvertText:
     ld      (hl),a
     inc     hl
     inc     hl
-    djnz    Again    ;loops 91 times (cause of b)
+    djnz    InvertText ;loops 91 times (cause of b)
 ; End Invert
     ld      de,00b6h
-FlushAndExit:
+FlushAndReturn:
     ld      c,e
     ld      b,d
     pop     hl
     call    FlushMenu ; or redraw?
     pop     hl
     pop     de
-    pop     bc
-ret     
-
-
-PrintHex:
-	pop de
-	push de
-	ld a, d
-	srl a
-	srl a
-	srl a
-	srl a
-	cp 10
-	jr nc, PrintLetter
-	jp PrintNumber
 ret
-
-PrintNumber:
-	add 48
-ret
-
-PrintLetter:
-	add 65
-ret
-
-Message:
-    db $0e, $00, $90, $00 ; Message bar, yes. Offset of some sort
-    db "Your"
-    db $00 ; spaces are nulls for message bar
-    db "program"
-    db $00
-    db "resides"
-    db $00
-    db "in:"
-    db $00
-    db "x"
-    db $ff ; String terminator
