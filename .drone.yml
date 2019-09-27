@@ -3,9 +3,16 @@ name: default
 
 steps:
 - name: build
-  image: debian:latest
+  image: registry.gitlab.com/centerorbit/brother-wp-sdk
   commands:
-    - apt-get update && apt-get install -y z80asm unzip curl wget
-    - 'curl -s https://api.github.com/repos/centerorbit/depcharge/releases/latest | grep "browser_download_url.*zip" | grep linux | cut -d : -f 2,3 | tr -d \" | wget -qi -'
-    - unzip *linux-x64.zip
-    - ./depcharge -f -- z80asm --includepath='targets/{{name}}' -i ./samples/hello-world/hello.asm -o './builds/{{name}}/HELLO.APL'
+    - entrypoint build
+    - entrypoint package
+
+- name: publish
+  image: plugins/github-release
+  settings:
+    api_key:
+      from_secret: github_token
+    files: builds/**/*.zip
+  when:
+    event: tag

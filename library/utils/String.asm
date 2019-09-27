@@ -1,3 +1,5 @@
+if ?String.asm == 0
+String.asm:
 
 ; To pass in the beginning pointer of a message,
 ;  use the following:
@@ -55,3 +57,5 @@ FlushAndReturn:
     pop     hl
     pop     de
 ret
+
+endif

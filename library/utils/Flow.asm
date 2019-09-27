@@ -1,3 +1,5 @@
+if ?Flow.asm == 0
+Flow.asm:
 
 
 HandoffToLoadedApp:
@@ -17,3 +19,5 @@ ResetAndExit:
     ld      a,01h
     rst     30h
 ret
+
+endif

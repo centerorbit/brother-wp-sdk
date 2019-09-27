@@ -1,4 +1,8 @@
+if ?Serial.asm == 0
+Serial.asm:
 
+
+include './library/utils/Wait.asm'
 
 ;CONSTANTS from http://www.hd64180-cpm.de/resources/180MACRO.LIB
 ;ASCI REGISTERS
@@ -17,8 +21,8 @@ RDR1:	EQU	09H
 ;     db 0EDh, 038h, arg1
 ; endm
 
-out0a: macro arg1
-    db 0EDh, 039h, arg1
+out0a: macro $1
+    db 0EDh, 039h, $1
 endm
 
 ; Note, the prescaler is 111 (external clock) on reset.  
@@ -85,24 +89,7 @@ ret
 
 OutSer1:
     out0a TDR1
+    call ShortDelay
 ret
 
-ShortDelay_Length: DEFW 90
-ShortDelay:
-    ;fine-tuning a delay for 9600 baud serial
-    push af
-    push bc
-    ld a,255
-    ld bc, (ShortDelay_Length) ; 20 was too short
-    Outer2:
-        nop
-        nop
-        nop
-        dec bc                  ;Decrements BC
-        ld a, b                 ;Copies B into A
-        or c                    ;Bitwise OR of C with A (now, A = B | C)
-    jp nz, Outer2            ;Jumps back to Outer: label if A is not zero
-    pop bc
-    pop af  
-    ret                     ;Return from call to this subroutine
-    
+endif

@@ -1,11 +1,19 @@
 include 'header.asm'
 
-; Main entry point
+; ; Main entry point
 call ClearScreen
 call ShowMessage
 call ConfigureSerialChannel0
 call SerialOk
 ret
+
+; ; Includes must come after the main entry point of the app.
+include './library/screen/BottomMenu.asm'
+include './library/screen/Screen.asm'
+include './library/utils/Flow.asm'
+include './library/utils/Wait.asm'
+include './library/io/Serial.asm'
+
 
 
 SerialOk:
@@ -27,14 +35,6 @@ LoopOk:
     call Delay
     jp SerialOk
 ; looping to just print this out here.
-
-; Includes must come after the main entry point of the app.
-include './library/screen/BottomMenu.asm'
-include './library/screen/Screen.asm'
-include './library/utils/Flow.asm'
-include './library/utils/Wait.asm'
-include './library/io/Serial.asm'
-
 
 ShowMessage:
     push    bc
@@ -100,6 +100,6 @@ Message:
     db "'OK'"
     db $00 ; spaces are nulls for message bar
     db "to"
-        db $00 ; spaces are nulls for message bar
+    db $00 ; spaces are nulls for message bar
     db "terminal..."
     db $ff ; String terminator

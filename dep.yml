@@ -1,42 +1,60 @@
-.builds: &sample-builds
-  - kind: build
+.apps: &sample-apps
+  - name: App Origin
+    kind: app
+    labels:
+      - origin
     params:
       location: samples/app-origin
       input: origin.asm
       output: ORIGIN.APL
-  - kind: build
+  - name: Serial Sample
+    kind: app
+    labels:
+      - serial
     params:
       location: samples/hello-serial
       input: serial.asm
       output: SERIAL.APL
-  - kind: build
+  - name: Hello World
+    kind: app
+    labels:
+      - hello
     params:
       location: samples/hello-world
       input: hello.asm
       output: HELLO.APL
-  - kind: build
+  - name: Keyboard Input
+    kind: app
+    labels:
+      - keyboard
     params:
       location: samples/input
       input: keyboard.asm
       output: KEYBOARD.APL
 
 deps:
-    - kind: machines
-      deps:
-        - name: PN-8500MDSe
-          kind: z80asm
-          merge-deps:
-            - *sample-builds
-        - name: WP-2450 DS
-          kind: z80asm
-          merge-deps:
-            - *sample-builds
-        - name: WP-2410 DS
-          kind: z80asm
-          merge-deps:
-            - *sample-builds
-        - name: WP-5500 DS
-          kind: z80asm
-          merge-deps:
-            - *sample-builds
+  - name: PN-8500MDSe
+    kind: machine
+    labels:
+      - 8500
+    merge-deps:
+      - *sample-apps
+  - name: WP-2450 DS
+    kind: machine
+    labels:
+      - 2450
+    merge-deps:
+      - *sample-apps
+  - name: WP-2410 DS
+    kind: machine
+    labels:
+      - 2410
+    merge-deps:
+      - *sample-apps
+  - name: WP-5500 DS
+    kind: machine
+    labels:
+      - 5500
+    merge-deps:
+      - *sample-apps
 

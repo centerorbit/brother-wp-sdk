@@ -1,3 +1,5 @@
+if ?BottomMenu.asm == 0
+BottomMenu.asm:
 
 ; Used to clear out message bar
 BlankMessageBar:
@@ -48,3 +50,5 @@ ClearMessageBar:
     pop     de
     pop     bc
 ret
+
+endif
