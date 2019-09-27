@@ -1,18 +1,15 @@
-FROM debian:latest
+FROM debian:latest as getDepCharge
 
-# Install assembler
-RUN apt-get update && apt-get install -y z80asm
+RUN apt-get update && apt-get install -y z80asm unzip curl wget
+# Download the prerelease version of DepCharge (until v2 comes out)
+# After which, we can switch back to this:
+#   RUN curl -s https://api.github.com/repos/centerorbit/depcharge/releases/latest | grep "browser_download_url.*zip" | grep linux | cut -d : -f 2,3 | tr -d '"' | wget -qi -
+RUN curl -s https://api.github.com/repos/centerorbit/depcharge/releases?prerelease=true | grep "browser_download_url.*zip" | grep linux | cut -d : -f 2,3 | tr -d '"'| head -1 | wget -qi -
+RUN unzip *linux-x64.zip
 
-# Setup build directories
-RUN mkdir /code
+FROM registry.gitlab.com/centerorbit/z80asm:latest
 
-# Copy in SDK
-WORKDIR /code
-COPY . /code
-
-# Build 'Hello World' to ensure we're setup properly.
-RUN z80asm --includepath="targets/WP-2450 DS" -i ./samples/hello-world/hello.asm -o "./builds/WP-2410 DS/HELLO.APL"
-
+COPY --from=getDepCharge depcharge /bin/depcharge
 
 COPY ./docker/entrypoint.sh /entrypoint.sh
 RUN chmod u+x /entrypoint.sh

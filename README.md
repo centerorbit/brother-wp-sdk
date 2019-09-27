@@ -56,8 +56,7 @@ Compile and move an app to floppy, using WSL and PowerShell:
 
 ## Using DepCharge
 
-`depcharge -f -s -k build -x z80asm  -- --includepath='t
-argets/{{../name}}' -i ./{{location}}/{{input}} -o "./builds/{{../name}}/{{output}}"`
+`depcharge -f -s -k build -x z80asm  -- --includepath='targets/{{../name}}' -i ./{{location}}/{{input}} -o "./builds/{{../name}}/{{output}}"`
 
 # Helping / Contributing
 There are many many ways to help out with these efforts.
