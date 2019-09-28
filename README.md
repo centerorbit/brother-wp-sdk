@@ -69,10 +69,20 @@ Compile and move an app to floppy, using WSL and PowerShell:
 `depcharge -f -s -k build -x z80asm  -- --includepath='targets/{{../name}}' -i ./{{location}}/{{input}} -o "./builds/{{../name}}/{{output}}"`
 
 # Getting Started and Learning
-* If you have APL files, (or if you've downloaded them from the [brother-wp-software](https://github.com/centerorbit/brother-wp-software) repo), one of the most useful decompilers that I've found is the [dz80](http://www.inkland.org.uk/dz80/).
-* If you're new to assembly I've found [ChibiAkumas' Z80 Intro Video Series](https://youtu.be/LpQCEwk2U9w) immensely helpful.
-* If you're looking to play around with an emulator/debugger/assembler to get your hands a little dirty, ChibiAkumas uses [WinAPE](http://www.winape.net/), which is very helpful in experimenting around with blocks of assembly code.
 
+## New to Assembly?
+If you're new to assembly I've found [ChibiAkumas' Z80 Intro Video Series](https://youtu.be/LpQCEwk2U9w) immensely helpful.
+
+
+If you're looking to play around with an emulator/debugger/assembler to get your hands a little dirty, ChibiAkumas uses [WinAPE](http://www.winape.net/), which is very helpful in experimenting around with blocks of assembly code.
+
+## New to Reverse Engineering?
+If you have APL files, (or if you've downloaded them from the [brother-wp-software](https://github.com/centerorbit/brother-wp-software) repo), one of the most useful decompilers that I've found is the [dz80](http://www.inkland.org.uk/dz80/).
+
+If you don't run Windows, the `z80dasm` (disassembler) can be used as well. This is easily installed on most Linux systems by their package manager of choice (Debian-based: `apt install z80dasm`).
+
+
+Example disassembly command: `z80dasm -t -l -g 0x5000 TUTOR.APL -o TUTOR.asm`
 
 # What What works?
 Currently, the `hello-world` application is all that works from this SDK. It's capable of:
