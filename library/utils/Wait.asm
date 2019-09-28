@@ -1,6 +1,6 @@
 ; This file contains methods for time/pauses
-if ?Wait.asm
-; Wait.asm:
+if ?Wait.asm == 0
+Wait.asm:
 
 ; TODO: This method could use some model directives to adjust the loop
 ;    based on various model clock speeds.

@@ -1,3 +1,5 @@
+if ?Investigate.asm == 0
+Investigate.asm:
 
 
 sub_b2e6h:
@@ -35,3 +37,4 @@ lb30ch:
 	rst 38h			;b30c	ff 	.
 
 
+endif

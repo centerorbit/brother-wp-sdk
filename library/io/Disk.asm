@@ -1,4 +1,6 @@
 ; WARNING! THE METHODS IN THIS FILE ARE UNTESTED
+if ?Disk.asm == 0
+Disk.asm:
 
 
 ; Asks ROM for RAM place to tell filename to load
@@ -49,3 +51,5 @@ LoadApp:
     ld      a,0bh    ; a is set to 11
     rst     28h      ; Load
 ret
+
+endif

@@ -1,3 +1,7 @@
+if ?Serial.asm == 0
+Serial.asm:
+
+
 include './library/utils/Wait.asm'
 
 ;CONSTANTS from http://www.hd64180-cpm.de/resources/180MACRO.LIB
@@ -17,8 +21,8 @@ RDR1:	EQU	09H
 ;     db 0EDh, 038h, arg1
 ; endm
 
-out0a: macro arg1
-    db 0EDh, 039h, arg1
+out0a: macro $1
+    db 0EDh, 039h, $1
 endm
 
 ; Note, the prescaler is 111 (external clock) on reset.  
@@ -85,5 +89,7 @@ ret
 
 OutSer1:
     out0a TDR1
+    call ShortDelay
 ret
 
+endif

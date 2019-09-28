@@ -1,3 +1,5 @@
+if ?Keyboard.asm == 0
+Keyboard.asm:
 
 WaitForKey:
 	push bc	
@@ -12,3 +14,5 @@ WaitForKey:
 	jr nc,WaitForKey
 	ret
 	jr z,WaitForKey
+
+endif
